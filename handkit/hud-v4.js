@@ -1,0 +1,4 @@
+const short={index:'I',middle:'M',ring:'R',pinky:'P'};
+function summary(hand){const d=hand.gestures.thumbDistances;return`${hand.id.slice(0,1)} ${Object.keys(short).map(k=>`${short[k]} ${Math.round(d[k].px)}`).join(' · ')}`}
+function attach(){if(!globalThis.HandKit)return setTimeout(attach,50);HandKit.subscribe(frame=>{const gaps=frame.hands.map(summary),gap=document.getElementById('gapPill'),gapM=document.getElementById('gapM'),count=document.getElementById('countPill');if(gap)gap.textContent=gaps.length?`Thumb gaps ${gaps.join('  |  ')} px`:'Thumb gaps –';if(gapM)gapM.textContent=gaps.join('  |  ')||'–';if(count&&frame.mode==='counting'){count.textContent=`Count ${frame.fingerCount??0}`;count.classList.toggle('on',Number.isInteger(frame.fingerCount)&&frame.fingerCount>=0&&frame.fingerCount<=10)}})}
+attach();
